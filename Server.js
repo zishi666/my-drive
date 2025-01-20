@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+
 app.use("/", homeRoutes);
 app.use("/user", userRoutes);
 
