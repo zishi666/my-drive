@@ -27,7 +27,13 @@ homeRoutes.post("/upload", Auth, upload.single("file"), async (req, res) => {
       user: req.user?.userId,
     });
 
-    res.render("home/home.ejs");
+    const userFiles = await fileModel.find({
+      user: req.user?.userId,
+    });
+
+    res.render("home/home.ejs", {
+      files: userFiles,
+    });
   } else {
     res.status(400).send("File upload failed");
   }
@@ -37,7 +43,6 @@ homeRoutes.post("/upload", Auth, upload.single("file"), async (req, res) => {
 homeRoutes.get("/download/:location", Auth, async (req, res) => {
   const loggedInUser = req.user?.userId;
   const userFileLocation = req.params.location;
-  console.log("weswjejwjdwkjkj====================>");
 
   const file = await fileModel.findOne({
     $and: [{ user: loggedInUser }, { location: userFileLocation }],
